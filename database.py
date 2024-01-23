@@ -48,7 +48,12 @@ try:
             id INTEGER PRIMARY KEY,
             nazwa TEXT,
             kategoria TEXT,
+            kategoria2 TEXT,
+            premiera TEXT,
+            czas TEXT,
+            produkcja TEXT,
             rezyser TEXT,
+            obsada TEXT,
             nazwa_jpg TEXT
         )
     ''')
@@ -205,20 +210,20 @@ except Exception as e:
     pass
 
 filmy = [
-            (1, "Aquaman", "Akcja", "James Wan", "aqua.jpg"),
-            (2, "Igrzyska Śmierci: Ballada ptaków i węży", "Akcja", "Francis Lawrence", "ballada.jpg"),
-            (3, "Barbie", "Komedia", "Greta Gerwig", "barbie.jpg"),
-            (4, "Oppenheimer", "Biograficzny", "Christopher Nolan", "oppenheimer.jpg"),
-            (5, "Spider-Man: Poprzez multiwersum", "Animacja", "Joaquim Dos Santos & Kemp Powers", "spider-man.jpg"),
-            (6, "Świąteczna niespodzianka", "Familijny", "Andrea Eckerbom", "swieta.jpg"),
-            (7, "Szybcy i wściekli 10", "Akcja", "Louis Leterrier", "szybcy.jpg"),
-            (8, "Trolle 3", "Animacja", "Walt Dohrn", "trolle.jpg"),
-            (9, "Wonka", "Fantasy", "Paul King", "wonka.jpg"),
-            (10, "Między nami żywiołami", "Animacja", "Peter Sohn", "zywioly.jpg")
+            (1, "Aquaman",                                  "Akcja",        "Sci-Fi",       "19 grudnia 2018",      "2 godz. 23 min.",  "USA, Australia",               "James Wan",                        "Jason Momoa, Amber Heard, Willem Dafoe",                           "aqua.jpg"),
+            (2, "Igrzyska Śmierci: Ballada ptaków i węży",  "Akcja",        "Sci-Fi",       "17 listopada 2023",    "2 godz. 37 min.",  "USA",                          "Francis Lawrence",                 "Tom Blyth, Rachel Zegler, Viola Davis",                            "ballada.jpg"),
+            (3, "Barbie",                                   "Dramat",       "Komedia",      "21 lipca 2023",        "1 godz. 54 min.",  "USA, Kanada",                  "Greta Gerwig",                     "Margot Robbie, Ryan Gosling, America Ferrera",                     "barbie.jpg"),
+            (4, "Oppenheimer",                              "Biograficzny", "Dramat",       "21 lipca 2023",        "3 godz.",          "USA, Wielka Brytania",         "Christopher Nolan",                "Cillian Murphy, Emily Blunt, Matt Damon",                          "oppenheimer.jpg"),
+            (5, "Spider-Man: Poprzez multiwersum",          "Animacja",     "Akcja",        "2 czerwca 2023",       "2 godz. 20 min.",  "USA",                          "Joaquim Dos Santos, Kemp Powers",  "Shameik Moore, Hailee Steinfeld, Brian Tyree Henry",               "spider-man.jpg"),
+            (6, "Świąteczna niespodzianka",                 "Familijny",    "Świąteczny",   "9 grudnia 2022",       "1 godz. 18 min.",  "Norwegia",                     "Andrea Eckerbom",                  "Marte Klerck-Nilssen, John F. Brungot, Lene Kongsvik Johansen",    "swieta.jpg"),
+            (7, "Szybcy i wściekli 10",                     "Akcja",        " ",            "19 maja 2023",         "2 godz. 21 min.",  "USA, Chiny, Japonia",          "Louis Leterrier",                  "Vin Diesel, Michelle Rodriguez, Jason Momoa",                      "szybcy.jpg"),
+            (8, "Trolle 3",                                 "Animacja",     "Familijny",    "1 grudnia 2023",       "1 godz. 31 min.",  "USA",                          "Walt Dohrn",                       "Anna Kendrick, Justin Timberlake, Camila Cabello",                 "trolle.jpg"),
+            (9, "Wonka",                                    "Fantasy",      "Komedia",      "14 grudnia 2023",      "1 godz. 53 min.",  "USA, Kanada, Wielka Brytania", "Paul King",                        "Timothée Chalamet, Calah Lane, Keegan-Michael Key",                "wonka.jpg"),
+            (10, "Między nami żywiołami",                   "Animacja",     "Przygodowy",   "14 lipca 2023",        "1 godz. 41 min.",  "USA",                          "Peter Sohn",                       "Leah Lewis, Mamoudou Athie, Ronnie Del Carmen",                    "zywioly.jpg")
 ]
 
 try:
-    cursor.executemany("INSERT INTO film VALUES (?,?,?,?,?)", filmy)
+    cursor.executemany("INSERT INTO film VALUES (?,?,?,?,?,?,?,?,?,?)", filmy)
 except Exception as e:
     pass
 
@@ -232,7 +237,6 @@ except Exception as e:
     pass
 
 # sprawdzenie
-"""
 cursor.execute("SELECT * FROM kino")
 print(cursor.fetchall())
 cursor.execute("SELECT * FROM sala")
@@ -243,7 +247,6 @@ cursor.execute("SELECT * FROM film")
 print(cursor.fetchall())
 cursor.execute("SELECT * FROM uzytkownik")
 print(cursor.fetchall())
-"""
 
 conn.commit()
 conn.close()
