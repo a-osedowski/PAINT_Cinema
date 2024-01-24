@@ -77,7 +77,8 @@ try:
         CREATE TABLE uzytkownik (
             id INTEGER PRIMARY KEY,
             login TEXT,
-            haslo TEXT
+            haslo TEXT,
+            email TEXT
         )
     ''')
 except Exception as e:
@@ -258,11 +259,11 @@ except Exception as e:
     pass
 
 uzytkownicy = [
-            (1, "user", "tajnehaslo1")
+            (1, "user", "tajnehaslo1", "user1@gmail.com")
 ]
 
 try:
-    cursor.executemany("INSERT INTO uzytkownik VALUES (?,?,?)", uzytkownicy)
+    cursor.executemany("INSERT INTO uzytkownik VALUES (?,?,?,?)", uzytkownicy)
 except Exception as e:
     pass
 
