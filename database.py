@@ -46,6 +46,7 @@ try:
     cursor.execute('''
         CREATE TABLE film (
             id INTEGER PRIMARY KEY,
+            opis_id INTEGER,
             nazwa TEXT,
             kategoria TEXT,
             kategoria2 TEXT,
@@ -54,7 +55,18 @@ try:
             produkcja TEXT,
             rezyser TEXT,
             obsada TEXT,
-            nazwa_jpg TEXT
+            nazwa_jpg TEXT,
+            FOREIGN KEY (opis_id) REFERENCES opis(id)
+        )
+    ''')
+except Exception as e:
+    pass
+
+try:
+    cursor.execute('''
+        CREATE TABLE opis (
+            id INTEGER PRIMARY KEY,
+            opisf TEXT
         )
     ''')
 except Exception as e:
@@ -210,20 +222,38 @@ except Exception as e:
     pass
 
 filmy = [
-            (1, "Aquaman",                                  "Akcja",        "Sci-Fi",       "19 grudnia 2018",      "2 godz. 23 min.",  "USA, Australia",               "James Wan",                        "Jason Momoa, Amber Heard, Willem Dafoe",                           "aqua.jpg"),
-            (2, "Igrzyska Śmierci: Ballada ptaków i węży",  "Akcja",        "Sci-Fi",       "17 listopada 2023",    "2 godz. 37 min.",  "USA",                          "Francis Lawrence",                 "Tom Blyth, Rachel Zegler, Viola Davis",                            "ballada.jpg"),
-            (3, "Barbie",                                   "Dramat",       "Komedia",      "21 lipca 2023",        "1 godz. 54 min.",  "USA, Kanada",                  "Greta Gerwig",                     "Margot Robbie, Ryan Gosling, America Ferrera",                     "barbie.jpg"),
-            (4, "Oppenheimer",                              "Biograficzny", "Dramat",       "21 lipca 2023",        "3 godz.",          "USA, Wielka Brytania",         "Christopher Nolan",                "Cillian Murphy, Emily Blunt, Matt Damon",                          "oppenheimer.jpg"),
-            (5, "Spider-Man: Poprzez multiwersum",          "Animacja",     "Akcja",        "2 czerwca 2023",       "2 godz. 20 min.",  "USA",                          "Joaquim Dos Santos, Kemp Powers",  "Shameik Moore, Hailee Steinfeld, Brian Tyree Henry",               "spider-man.jpg"),
-            (6, "Świąteczna niespodzianka",                 "Familijny",    "Świąteczny",   "9 grudnia 2022",       "1 godz. 18 min.",  "Norwegia",                     "Andrea Eckerbom",                  "Marte Klerck-Nilssen, John F. Brungot, Lene Kongsvik Johansen",    "swieta.jpg"),
-            (7, "Szybcy i wściekli 10",                     "Akcja",        " ",            "19 maja 2023",         "2 godz. 21 min.",  "USA, Chiny, Japonia",          "Louis Leterrier",                  "Vin Diesel, Michelle Rodriguez, Jason Momoa",                      "szybcy.jpg"),
-            (8, "Trolle 3",                                 "Animacja",     "Familijny",    "1 grudnia 2023",       "1 godz. 31 min.",  "USA",                          "Walt Dohrn",                       "Anna Kendrick, Justin Timberlake, Camila Cabello",                 "trolle.jpg"),
-            (9, "Wonka",                                    "Fantasy",      "Komedia",      "14 grudnia 2023",      "1 godz. 53 min.",  "USA, Kanada, Wielka Brytania", "Paul King",                        "Timothée Chalamet, Calah Lane, Keegan-Michael Key",                "wonka.jpg"),
-            (10, "Między nami żywiołami",                   "Animacja",     "Przygodowy",   "14 lipca 2023",        "1 godz. 41 min.",  "USA",                          "Peter Sohn",                       "Leah Lewis, Mamoudou Athie, Ronnie Del Carmen",                    "zywioly.jpg")
+            (1,1,   "Aquaman",                                  "Akcja",        "Sci-Fi",       "19 grudnia 2018",      "2 godz. 23 min.",  "USA, Australia",               "James Wan",                        "Jason Momoa, Amber Heard, Willem Dafoe",                           "aqua.jpg"),
+            (2,2,   "Igrzyska Śmierci: Ballada ptaków i węży",  "Akcja",        "Sci-Fi",       "17 listopada 2023",    "2 godz. 37 min.",  "USA",                          "Francis Lawrence",                 "Tom Blyth, Rachel Zegler, Viola Davis",                            "ballada.jpg"),
+            (3,3,   "Barbie",                                   "Dramat",       "Komedia",      "21 lipca 2023",        "1 godz. 54 min.",  "USA, Kanada",                  "Greta Gerwig",                     "Margot Robbie, Ryan Gosling, America Ferrera",                     "barbie.jpg"),
+            (4,4,   "Oppenheimer",                              "Biograficzny", "Dramat",       "21 lipca 2023",        "3 godz.",          "USA, Wielka Brytania",         "Christopher Nolan",                "Cillian Murphy, Emily Blunt, Matt Damon",                          "oppenheimer.jpg"),
+            (5,5,   "Spider-Man: Poprzez multiwersum",          "Animacja",     "Akcja",        "2 czerwca 2023",       "2 godz. 20 min.",  "USA",                          "Joaquim Dos Santos, Kemp Powers",  "Shameik Moore, Hailee Steinfeld, Brian Tyree Henry",               "spider-man.jpg"),
+            (6,6,   "Świąteczna niespodzianka",                 "Familijny",    "Świąteczny",   "9 grudnia 2022",       "1 godz. 18 min.",  "Norwegia",                     "Andrea Eckerbom",                  "Marte Klerck-Nilssen, John F. Brungot, Lene Kongsvik Johansen",    "swieta.jpg"),
+            (7,7,   "Szybcy i wściekli 10",                     "Akcja",        " ",            "19 maja 2023",         "2 godz. 21 min.",  "USA, Chiny, Japonia",          "Louis Leterrier",                  "Vin Diesel, Michelle Rodriguez, Jason Momoa",                      "szybcy.jpg"),
+            (8,8,   "Trolle 3",                                 "Animacja",     "Familijny",    "1 grudnia 2023",       "1 godz. 31 min.",  "USA",                          "Walt Dohrn",                       "Anna Kendrick, Justin Timberlake, Camila Cabello",                 "trolle.jpg"),
+            (9,9,   "Wonka",                                    "Fantasy",      "Komedia",      "14 grudnia 2023",      "1 godz. 53 min.",  "USA, Kanada, Wielka Brytania", "Paul King",                        "Timothée Chalamet, Calah Lane, Keegan-Michael Key",                "wonka.jpg"),
+            (10,10, "Między nami żywiołami",                    "Animacja",     "Przygodowy",   "14 lipca 2023",        "1 godz. 41 min.",  "USA",                          "Peter Sohn",                       "Leah Lewis, Mamoudou Athie, Ronnie Del Carmen",                    "zywioly.jpg")
+]
+
+opisy = [
+            (1, "Arthur Curry niechętnie stara się przejąć władzę w podwodnym królestwie Atlantydy, żeby zapobiec wojnie z ludźmi żyjącymi na powierzchni."),
+            (2, "Młody Coriolanus Snow zostaje mentorem trybutki z Dwunastego Dystryktu podczas 10. Głodowych Igrzysk. Od tego momentu losy jego i Lucy Gray Baird nierozerwalnie się splatają."),
+            (3, "Barbie, która żyje w idealnym bajkowym świecie przechodzi kryzys egzystencjalny."),
+            (4, "Historia amerykańskiego naukowca J. Roberta Oppenheimera i jego roli w stworzeniu bomby atomowej."),
+            (5, "Miles trafia do multiwersum, w którym spotyka innych Spider-Manów. Sam musi odkryć, co dla niego oznacza bycie bohaterem oraz jak uratować tych, na których mu zależy."),
+            (6, "Nie wszystkie misie zapadają w zimowy sen. A w tym, jednym naprawdę można się zakochać, szczególnie że, potrafi mówić ludzkim głosem. I to nie tylko w Wigilię. Marianna zauważa misia na loterii fantowej podczas jarmarku świątecznego. Od początku czuje z nim niesamowitą więź. Ale niestety dla niej, nasz miś ma inne plany gdyż pragnie aby wygrał go ktoś bogaty. Taki ktoś kto nauczy go wszystkiego o świecie ludzi. Teraz Marianna ma czas tylko do Świąt aby przekonać misia o tym co tak naprawdę jest w życiu ważne."),
+            (7, "W ciągu wielu misji i wbrew przeciwnościom losu Dom Toretto i jego rodzina przechytrzyli i prześcignęli każdego wroga na swojej drodze. Teraz muszą zmierzyć się z najgroźniejszym przeciwnikiem, z jakim kiedykolwiek mieli do czynienia."),
+            (8, "Po dwóch filmach prawdziwej przyjaźni i flirtowania, Poppy i Mruk są teraz oficjalnie parą! Poppy odkrywa, że Mruk ma sekretną przeszłość. Był kiedyś częścią fenomenalnego boysbandu, BroZone, wraz ze swoimi czterema braćmi: Floydem, Johnem Dory, Sprucem i Clayem. BroZone rozpadł się, a Mruk od tamtej pory nie widział swoich braci. Mruk i Poppy wyruszają w pełną emocji podróż, aby zjednoczyć braci."),
+            (9, "Młody Willy Wonka poznaje Oompa-Loompas w czasie jednej ze swoich przygód."),
+            (10, "Para przeciwnych sobie żywiołów Ember i Wade wspólnie ratuje miasto przed zagładą.")
 ]
 
 try:
-    cursor.executemany("INSERT INTO film VALUES (?,?,?,?,?,?,?,?,?,?)", filmy)
+    cursor.executemany("INSERT INTO opis VALUES (?,?)", opisy)
+except Exception as e:
+    pass
+
+try:
+    cursor.executemany("INSERT INTO film VALUES (?,?,?,?,?,?,?,?,?,?,?)", filmy)
 except Exception as e:
     pass
 
@@ -244,6 +274,8 @@ print(cursor.fetchall())
 cursor.execute("SELECT * FROM seans")
 print(cursor.fetchall())
 cursor.execute("SELECT * FROM film")
+print(cursor.fetchall())
+cursor.execute("SELECT * FROM opis")
 print(cursor.fetchall())
 cursor.execute("SELECT * FROM uzytkownik")
 print(cursor.fetchall())
